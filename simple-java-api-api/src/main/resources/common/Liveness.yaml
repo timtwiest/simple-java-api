@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Liveness
+servers: [ ]
+paths: { }
+
+components:
+  schemas:
+    LivenessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: OK
+        timestamp:
+          type: integer
+          format: int64
+          example: 1646050865668
+      required:
+        - status
+        - timestamp

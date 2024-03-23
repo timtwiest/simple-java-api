@@ -1,0 +1,13 @@
+### Get Liveness Status
+# This request checks the liveness of the service by hitting the liveness endpoint.
+# It's useful for monitoring and health check purposes in production and development environments.
+
+GET {{host}}/liveness
+Accept: application/json
+
+### Get a page that does not exists
+# This request is used to test how the system handles requests for pages that don't exist.
+# It's a simple way to check if the correct error message or status code (like 404) is returned.
+
+GET {{host}}/page/not/found
+Accept: application/json

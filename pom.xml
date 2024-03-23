@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.4</version>
+    </parent>
+
+    <groupId>nl.timtwiest</groupId>
+    <artifactId>simple-java-api</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <organization>
+        <name>Tim Twiest</name>
+        <url>https://timtwiest.nl/</url>
+    </organization>
+    <inceptionYear>2024</inceptionYear>
+    <developers>
+        <developer>
+            <name>Tim Twiest</name>
+            <email>hello@timtwiest.nl</email>
+        </developer>
+    </developers>
+    <description>Simple Java API</description>
+    <scm>
+        <url>https://github.com/timtwiest/simple-java-api</url>
+    </scm>
+
+    <properties>
+        <!--  Maven Project/Build Settings  -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <java.version>21</java.version>
+
+        <!--  General Version Management  -->
+        <version.lombok>1.18.32</version.lombok>
+
+        <!--  Test Version Management  -->
+        <version.mockito-junit-jupiter>5.11.0</version.mockito-junit-jupiter>
+        <version.junit-jupiter-api>5.10.2</version.junit-jupiter-api>
+
+        <!-- Spring Version Management  -->
+        <version.spring-boot>3.2.4</version.spring-boot>
+    </properties>
+
+    <modules>
+        <module>simple-java-api-api</module>
+        <module>simple-java-api-app</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--  General Dependencies  -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${version.lombok}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--  Test Dependencies  -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${version.mockito-junit-jupiter}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${version.junit-jupiter-api}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--  Spring Dependencies  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${version.spring-boot}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${version.spring-boot}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

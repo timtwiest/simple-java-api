@@ -1,0 +1,6 @@
+server:
+  port: ${PORT:9080}
+  error:
+    whitelabel:
+      enabled: false
+

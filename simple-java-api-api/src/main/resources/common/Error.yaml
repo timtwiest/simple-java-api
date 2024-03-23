@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Error
+servers: [ ]
+paths: { }
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Errors'
+      required:
+        - code
+        - message
+        - errors
+    Errors:
+      type: string
