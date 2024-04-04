@@ -12,6 +12,8 @@
     <artifactId>simple-java-api-api</artifactId>
 
     <properties>
+        <contract.dir>${basedir}/src/main/resources/contract</contract.dir>
+
         <!--  General Version Management  -->
         <version.openapi-generator>7.2.0</version.openapi-generator>
         <swagger.annotations.version>2.2.20</swagger.annotations.version>
@@ -93,9 +95,9 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <id>build-api-liveness-contracts</id>
+                        <id>build-api-liveness-contract</id>
                         <configuration>
-                            <inputSpec>${basedir}/src/main/resources/contract/liveness.yaml</inputSpec>
+                            <inputSpec>${contract.dir}/liveness-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
                             <apiNameSuffix>ApiController</apiNameSuffix>
