@@ -2,8 +2,6 @@ openapi: 3.0.3
 info:
   version: 1.0.0
   title: Liveness
-tags:
-  - common
 
 paths:
   /liveness:
@@ -31,10 +29,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: '../common/Error.yaml#/components/schemas/Error'
+            $ref: '../common/Error.yaml#/components/schemas/ErrorResponse'
     500:
       description: Internal server error
       content:
         application/json:
           schema:
-            $ref: '../common/Error.yaml#/components/schemas/Error'
+            $ref: '../common/Error.yaml#/components/schemas/ErrorResponse'

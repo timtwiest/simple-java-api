@@ -95,9 +95,30 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <id>build-api-liveness-contract</id>
+                        <id>build-liveness-contract</id>
                         <configuration>
                             <inputSpec>${contract.dir}/liveness-contract.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <apiNameSuffix>ApiController</apiNameSuffix>
+                            <modelPackage>nl.timtwiest.simplejavaapi.api.models</modelPackage>
+                            <apiPackage>nl.timtwiest.simplejavaapi.api</apiPackage>
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useJakartaEe>true</useJakartaEe>
+                                <additionalModelTypeAnnotations>@lombok.experimental.SuperBuilder</additionalModelTypeAnnotations>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <id>build-users-contract</id>
+                        <configuration>
+                            <inputSpec>${contract.dir}/v1/users-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
                             <apiNameSuffix>ApiController</apiNameSuffix>

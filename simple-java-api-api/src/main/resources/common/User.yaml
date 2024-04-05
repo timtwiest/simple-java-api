@@ -1,0 +1,21 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: User
+servers: [ ]
+paths: { }
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: john.doe@acme.inc
+      required:
+        - name
+        - email

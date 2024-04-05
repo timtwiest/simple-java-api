@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class LivenessImplTest {
-
     @InjectMocks
     private LivenessImpl underTest;
 

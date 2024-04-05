@@ -1,0 +1,5 @@
+### Get Users List
+# This request retrieves a list of users from the service by hitting the users endpoint.
+
+GET {{host}}/api/v1/users?page=1&limit=2
+Accept: application/json

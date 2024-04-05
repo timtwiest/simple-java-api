@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Users
+
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - users
+      summary: Get all users
+      operationId: getUsers
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number of the users listing
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of users per page
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+components:
+  schemas:
+    PaginatedUserResponse:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+        totalItems:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: '../../common/User.yaml#/components/schemas/UserResponse'
+      required:
+        - currentPage
+        - totalPages
+        - totalItems
+        - users
+  responses:
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '../../common/Error.yaml#/components/schemas/ErrorResponse'
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '../../common/Error.yaml#/components/schemas/ErrorResponse'

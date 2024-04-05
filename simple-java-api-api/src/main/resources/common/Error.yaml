@@ -7,7 +7,7 @@ paths: { }
 
 components:
   schemas:
-    Error:
+    ErrorResponse:
       type: object
       properties:
         code:
