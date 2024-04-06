@@ -116,9 +116,9 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <id>build-users-contract</id>
+                        <id>build-user-contract</id>
                         <configuration>
-                            <inputSpec>${contract.dir}/v1/users-contract.yaml</inputSpec>
+                            <inputSpec>${contract.dir}/v1/user-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
                             <apiNameSuffix>ApiController</apiNameSuffix>

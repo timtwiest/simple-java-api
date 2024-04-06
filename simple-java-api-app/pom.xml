@@ -11,6 +11,10 @@
 
     <artifactId>simple-java-api-app</artifactId>
 
+    <properties>
+        <postgresql.version>42.7.3</postgresql.version>
+    </properties>
+
     <dependencies>
         <!--  Project Dependencies  -->
         <dependency>
@@ -35,6 +39,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!--  Datasource Dependencies  -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!--  Test Dependencies  -->

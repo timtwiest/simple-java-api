@@ -1,7 +1,7 @@
 package nl.timtwiest.simplejavaapi.app.boundary.resource.v1;
 
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
-import nl.timtwiest.simplejavaapi.app.control.service.UsersService;
+import nl.timtwiest.simplejavaapi.app.control.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,18 +16,18 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UsersImplTest {
+class UserImplTest {
 
     @InjectMocks
-    private UsersImpl underTest;
+    private UserImpl underTest;
 
     @Mock
-    private UsersService usersService;
+    private UserService userService;
 
     @Test
     void should_retrieve_users() {
         PaginatedUserResponse expectedResponse = PaginatedUserResponse.builder().build();
-        when(usersService.users(anyInt(), anyInt())).thenReturn(expectedResponse);
+        when(userService.users(anyInt(), anyInt())).thenReturn(expectedResponse);
 
         ResponseEntity<PaginatedUserResponse> responseEntity = underTest.getUsers(1, 10);
 

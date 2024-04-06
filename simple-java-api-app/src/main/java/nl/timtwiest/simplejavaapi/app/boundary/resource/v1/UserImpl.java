@@ -1,9 +1,9 @@
 package nl.timtwiest.simplejavaapi.app.boundary.resource.v1;
 
 import lombok.AllArgsConstructor;
-import nl.timtwiest.simplejavaapi.api.UsersApiController;
+import nl.timtwiest.simplejavaapi.api.UserApiController;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
-import nl.timtwiest.simplejavaapi.app.control.service.UsersService;
+import nl.timtwiest.simplejavaapi.app.control.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-public class UsersImpl implements UsersApiController {
-    private final UsersService usersService;
+public class UserImpl implements UserApiController {
+    private final UserService userService;
 
     /**
      * Retrieves a list of users.
@@ -24,7 +24,7 @@ public class UsersImpl implements UsersApiController {
      */
     @Override
     public ResponseEntity<PaginatedUserResponse> getUsers(Integer page, Integer limit) {
-        PaginatedUserResponse response = usersService.users(page, limit);
+        PaginatedUserResponse response = userService.users(page, limit);
         return ResponseEntity.ok(response);
     }
 }

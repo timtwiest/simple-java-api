@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  postgres_db:
+    image: postgres:16.2-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE:-simplejavaapi}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - ./.volumes/postgres/data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

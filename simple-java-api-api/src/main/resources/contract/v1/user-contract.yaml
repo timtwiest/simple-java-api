@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
   version: 1.0.0
-  title: Users
+  title: User
 
 paths:
   /api/v1/users:
     get:
       tags:
-        - users
+        - user
       summary: Get all users
       operationId: getUsers
       parameters:
@@ -46,6 +46,7 @@ components:
           type: integer
         totalItems:
           type: integer
+          format: int64
         users:
           type: array
           items:
