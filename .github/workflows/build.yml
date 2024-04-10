@@ -26,23 +26,23 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
 
-      - name: Install dependencies without running tests
+      - name: Install maven dependencies
         run: mvn install -DskipTests -B
 
-      - name: Run tests and generate JaCoCo report for simple-java-api-app
+      - name: Run tests and Generate JaCoCo Report
         run: mvn test jacoco:report -pl simple-java-api-app
 
       - name: Upload JaCoCo Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: simple-java-api-app/target/site/jacoco/
