@@ -12,7 +12,13 @@
     <artifactId>simple-java-api-app</artifactId>
 
     <properties>
+        <!--  General Version Management  -->
         <postgresql.version>42.7.3</postgresql.version>
+
+        <!--  Test Version Management  -->
+        <version.cucumber>7.14.0</version.cucumber>
+        <version.gherkin>27.0.0</version.gherkin>
+        <version.rest-assured>5.3.2</version.rest-assured>
     </properties>
 
     <dependencies>
@@ -70,6 +76,48 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  Integration (Cucumber, etc...) Dependencies  -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>${version.gherkin}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>1.10.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${version.cucumber}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${version.rest-assured}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
