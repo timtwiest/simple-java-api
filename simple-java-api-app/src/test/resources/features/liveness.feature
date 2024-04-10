@@ -1,5 +1,5 @@
 @service-integration-tests
-Feature: Checking if the Application is Alive
+Feature: API-LIVENESS: Checking if the Application is Alive
 
   Background:
     Given the application is up and running
