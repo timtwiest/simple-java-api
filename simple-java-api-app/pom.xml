@@ -13,7 +13,8 @@
 
     <properties>
         <!--  General Version Management  -->
-        <postgresql.version>42.7.3</postgresql.version>
+        <version.postgresql>42.7.3</version.postgresql>
+        <version.springdoc-openapi-ui>1.8.0</version.springdoc-openapi-ui>
 
         <!--  Test Version Management  -->
         <version.cucumber>7.14.0</version.cucumber>
@@ -37,6 +38,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--  OpenAPI Dependencies  -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
         <!--  Spring Dependencies  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,7 +65,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
+            <version>${version.postgresql}</version>
             <scope>runtime</scope>
         </dependency>
 
