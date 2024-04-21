@@ -5,7 +5,7 @@
 1. [Requirements](#requirements)
 2. [Getting Started](#getting-started)
 3. [Containerization](#containerization)
-4. [OpenAPI Interface](#openapi-interface)
+4. [OpenAPI](#openapi)
 5. [Roadmap](#roadmap)
 6. [Contributing](#contributing)
 
@@ -64,12 +64,12 @@ Use the provided `docker-compose.yaml` to start both the PostgreSQL instance and
 docker-compose up -d
 ```
 
-## OpenAPI Interface
+## OpenAPI
 
 The application features an OpenAPI interface for easy interaction with the API. It provides a user-friendly way to view
 and test the endpoints.
 
-Access the OpenAPI interface at [here](http://localhost:9080/api/ui).
+You can access the OpenAPI-interface locally at http://localhost:9080/api/ui.
 
 ## Roadmap
 
