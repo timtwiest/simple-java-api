@@ -1,5 +1,5 @@
-ARG BUILD_IMAGE=maven:3.9.5-eclipse-temurin-21-alpine
-ARG RUNTIME_IMAGE=openjdk:21-jdk-slim
+ARG BUILD_IMAGE=maven:3.9.11-eclipse-temurin-25-alpine
+ARG RUNTIME_IMAGE=eclipse-temurin:25-jre-jammy
 
 FROM ${BUILD_IMAGE} AS build
 WORKDIR /usr/src/app
@@ -7,11 +7,11 @@ WORKDIR /usr/src/app
 COPY pom.xml ./pom.xml
 COPY simple-java-api-api/pom.xml ./simple-java-api-api/
 COPY simple-java-api-app/pom.xml ./simple-java-api-app/
-RUN mvn dependency:go-offline -PskipITs
+RUN mvn --batch-mode --no-transfer-progress dependency:go-offline -DskipTests
 
 COPY simple-java-api-api ./simple-java-api-api
 COPY simple-java-api-app ./simple-java-api-app
-RUN mvn package -PskipITs
+RUN mvn --batch-mode --no-transfer-progress package -DskipTests
 
 FROM ${RUNTIME_IMAGE}
 ARG PORT=9080

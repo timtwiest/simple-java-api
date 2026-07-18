@@ -15,13 +15,12 @@
         <contract.dir>${basedir}/src/main/resources/contract</contract.dir>
 
         <!--  General Version Management  -->
-        <version.openapi-generator>7.2.0</version.openapi-generator>
-        <swagger.annotations.version>2.2.20</swagger.annotations.version>
+        <version.openapi-generator>7.22.0</version.openapi-generator>
+        <swagger.annotations.version>2.2.41</swagger.annotations.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
         <jackson.databind.nullable.version>0.2.6</jackson.databind.nullable.version>
         <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
-        <jackson.core.version>2.16.1</jackson.core.version>
     </properties>
 
     <dependencies>
@@ -56,7 +55,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
+            <version>${jackson.databind.nullable.version}</version>
         </dependency>
 
         <dependency>
@@ -80,7 +79,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.core.version}</version>
         </dependency>
     </dependencies>
 
@@ -108,6 +106,7 @@
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
+                                <useSpringBoot3>true</useSpringBoot3>
                                 <additionalModelTypeAnnotations>@lombok.experimental.SuperBuilder</additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
@@ -129,6 +128,7 @@
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useJakartaEe>true</useJakartaEe>
+                                <useSpringBoot3>true</useSpringBoot3>
                                 <additionalModelTypeAnnotations>@lombok.experimental.SuperBuilder</additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>

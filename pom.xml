@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.5.14</version>
     </parent>
 
     <groupId>nl.timtwiest</groupId>
@@ -24,7 +24,7 @@
             <email>hello@timtwiest.nl</email>
         </developer>
     </developers>
-    <description>Simple Java API</description>
+    <description>A contract-first REST API built with Spring Boot, OpenAPI, and PostgreSQL</description>
     <scm>
         <url>https://github.com/timtwiest/simple-java-api</url>
     </scm>
@@ -33,19 +33,13 @@
         <!--  Maven Project/Build Settings  -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.source>21</maven.compiler.source>
-        <java.version>21</java.version>
+        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <java.version>25</java.version>
 
-        <!--  General Version Management  -->
-        <version.lombok>1.18.32</version.lombok>
+        <!-- Keep the JUnit Platform aligned with the current Cucumber engine. -->
+        <junit-jupiter.version>5.14.2</junit-jupiter.version>
 
-        <!--  Test Version Management  -->
-        <version.mockito-junit-jupiter>5.11.0</version.mockito-junit-jupiter>
-        <version.junit-jupiter-api>5.10.2</version.junit-jupiter-api>
-
-        <!-- Spring Version Management  -->
-        <version.spring-boot>3.2.4</version.spring-boot>
     </properties>
 
     <modules>
@@ -53,43 +47,4 @@
         <module>simple-java-api-app</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <!--  General Dependencies  -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${version.lombok}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!--  Test Dependencies  -->
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-junit-jupiter</artifactId>
-                <version>${version.mockito-junit-jupiter}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${version.junit-jupiter-api}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!--  Spring Dependencies  -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${version.spring-boot}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${version.spring-boot}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>

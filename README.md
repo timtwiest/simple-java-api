@@ -1,80 +1,106 @@
-# simple-java-api
+# Simple Java API
 
-## Table of Contents
+[![Build](https://github.com/timtwiest/simple-java-api/actions/workflows/build.yml/badge.svg)](https://github.com/timtwiest/simple-java-api/actions/workflows/build.yml)
+[![Java 25](https://img.shields.io/badge/Java-25-ED8B00?logo=openjdk&logoColor=white)](https://adoptium.net/temurin/releases/?version=25)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.14-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-1. [Requirements](#requirements)
-2. [Getting Started](#getting-started)
-3. [Containerization](#containerization)
-4. [OpenAPI](#openapi)
-5. [Roadmap](#roadmap)
-6. [Contributing](#contributing)
+A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and OpenAPI. The project demonstrates generated API interfaces, a layered application module, pagination, containerized local development, and both unit and behavior-driven tests.
 
-## Requirements
+## Highlights
 
-- Java 21 Temurin
-- Apache Maven 3.6.3 or higher
-- PostgreSQL 9.6 or higher
-- Docker 20.10.21 or higher
-- Docker Compose 2.13.0 or higher
+- **Contract first:** OpenAPI documents generate the Spring controller interfaces and response models.
+- **Clear module boundaries:** API contracts and generated code are separate from application code.
+- **Ready for local development:** Run PostgreSQL by itself or start the complete stack with Docker Compose.
+- **Built-in API explorer:** Swagger UI is available while the application is running.
+- **Tested at multiple levels:** JUnit 5, Mockito, Cucumber, REST Assured, and JaCoCo are configured.
+- **Automated builds:** GitHub Actions verifies every branch and pull request.
 
-## Getting Started
+## Quick start
 
-### Clone the Repository
-
-Clone the repository to your local machine:
+The quickest way to run the complete stack is Docker Compose:
 
 ```bash
-git clone git@github.com:timtwiest/simple-java-api.git
+git clone https://github.com/timtwiest/simple-java-api.git
+cd simple-java-api
+docker compose up --build
 ```
 
-### Run the PostgreSQL Database
+Once both services are healthy:
 
-Start the PostgreSQL database using Docker Compose:
+- API: <http://localhost:9080>
+- Swagger UI: <http://localhost:9080/api/ui>
+- OpenAPI document: <http://localhost:9080/api/yaml>
+- Liveness check: <http://localhost:9080/liveness>
+
+Try the API from another terminal:
 
 ```bash
-docker-compose up -d postgres-db
+curl http://localhost:9080/liveness
+curl "http://localhost:9080/api/v1/users?page=1&limit=10"
 ```
 
-### Build the Project
+Stop the stack with `docker compose down`. Add `--volumes` if you also want to remove the database volume.
 
-Build the project using Maven:
+## Run from source
+
+You need Java 25, Maven 3.9+, and Docker with Compose.
 
 ```bash
-mvn clean install
+# Start only PostgreSQL
+docker compose up -d postgres-db
+
+# Build and test all modules
+mvn clean verify
+
+# Run the application
+mvn spring-boot:run -pl simple-java-api-app
 ```
 
-## Containerization
+Development defaults are intentionally local-friendly (`postgres` / `postgres`). Override them through environment variables outside local development; see [development documentation](docs/development.md#configuration).
 
-This application is designed to be containerized using Docker. This allows the Spring Boot application to run in a
-reproducible environment.
+## API
 
-### Creating a Docker Image
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/liveness` | Report whether the service is running. |
+| `GET` | `/api/v1/users?page=1&limit=10` | Return a paginated list of users. |
 
-Create a Docker image of the application:
+The source contracts live in [`simple-java-api-api/src/main/resources/contract`](simple-java-api-api/src/main/resources/contract). Maven generates the Java interfaces and models during the `generate-sources` phase; generated files are never edited by hand.
 
-```bash
-docker build -t simple-java-api .
+See [API documentation](docs/api.md) for response examples and contract details. Ready-to-run requests for JetBrains HTTP Client are available in [`http/`](http/).
+
+## Project layout
+
+```text
+simple-java-api/
+├── simple-java-api-api/   OpenAPI contracts and generated Java API types
+├── simple-java-api-app/   Spring Boot application, persistence, and tests
+├── docs/                  Architecture, API, and development guides
+├── http/                  Example HTTP requests
+├── Dockerfile             Multi-stage application image
+└── docker-compose.yml     API and PostgreSQL development stack
 ```
 
-### Starting the Application
+Read [architecture documentation](docs/architecture.md) for the request flow and design decisions.
 
-Use the provided `docker-compose.yaml` to start both the PostgreSQL instance and the application:
+## Documentation
 
-```bash
-docker-compose up -d
-```
-
-## OpenAPI
-
-The application features an OpenAPI interface for easy interaction with the API. It provides a user-friendly way to view
-and test the endpoints.
-
-You can access the OpenAPI-interface locally at http://localhost:9080/api/ui.
+- [Architecture](docs/architecture.md)
+- [API guide](docs/api.md)
+- [Development and configuration](docs/development.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
 
 ## Roadmap
 
-_coming soon_
+- Add create, update, and delete operations for users.
+- Add schema migrations with Flyway.
+- Add validation and consistent problem-detail responses.
+- Add authentication and authorization.
+- Publish a versioned container image.
 
-## Contributing
+## License
 
-_coming soon_
+Distributed under the [MIT License](LICENSE).

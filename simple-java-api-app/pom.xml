@@ -13,14 +13,13 @@
 
     <properties>
         <!--  General Version Management  -->
-        <version.postgresql>42.7.3</version.postgresql>
-        <version.springdoc-openapi-ui>1.8.0</version.springdoc-openapi-ui>
+        <version.postgresql>42.7.13</version.postgresql>
+        <version.springdoc-openapi-ui>2.8.17</version.springdoc-openapi-ui>
 
         <!--  Test Version Management  -->
-        <version.cucumber>7.14.0</version.cucumber>
-        <version.gherkin>27.0.0</version.gherkin>
-        <version.rest-assured>5.3.2</version.rest-assured>
-        <version.jacoco>0.8.12</version.jacoco>
+        <version.cucumber>7.34.3</version.cucumber>
+        <version.rest-assured>5.5.7</version.rest-assured>
+        <version.jacoco>0.8.14</version.jacoco>
     </properties>
 
     <dependencies>
@@ -42,7 +41,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.5.0</version>
+            <version>${version.springdoc-openapi-ui}</version>
         </dependency>
 
         <!--  Spring Dependencies  -->
@@ -88,14 +87,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!--  Integration (Cucumber, etc...) Dependencies  -->
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>gherkin</artifactId>
-            <version>${version.gherkin}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!--  Integration (Cucumber, etc...) Dependencies  -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -106,7 +104,7 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>1.10.2</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -131,39 +129,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>skipITs</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M6</version>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/*Test.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.0.0-M3</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
@@ -185,22 +150,11 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>post-unit-test</id>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
                 <configuration>

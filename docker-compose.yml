@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres-db:
     image: postgres:16.2-bookworm
@@ -19,21 +17,25 @@ services:
     networks:
       - app-network
 
-  # For local development, you can temporarily disable the API container.
-  # This is done to save resources when you don't need it.
-  # To enable it, simply uncomment the following block.
-#  simple-java-api:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    environment:
-#      POSTGRES_HOST: "postgres-db"
-#    ports:
-#      - '9080:9080'
-#    depends_on:
-#      - postgres-db
-#    networks:
-#      - app-network
+  simple-java-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PORT: ${PORT:-9080}
+      POSTGRES_HOST: postgres-db
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE:-simplejavaapi}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      JPA_SHOW_SQL: ${JPA_SHOW_SQL:-false}
+    ports:
+      - '${PORT:-9080}:${PORT:-9080}'
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    networks:
+      - app-network
 
 networks:
   app-network:

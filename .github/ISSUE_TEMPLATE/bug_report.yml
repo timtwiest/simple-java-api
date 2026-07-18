@@ -1,0 +1,55 @@
+name: 🐛 Bug report
+description: Report reproducible behavior that does not work as expected.
+title: "🐛 "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: "👋 Thanks for helping improve Simple Java API. Please provide enough detail to reproduce the problem."
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 🐞 Description
+      description: What happened, and what did you expect instead?
+      placeholder: Describe the problem clearly and concisely.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 🔁 Steps to reproduce
+      placeholder: |
+        1. Start the application with ...
+        2. Send a request to ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 🖥️ Environment
+      description: Include the Java version, operating system, and whether you used Maven or Docker.
+      placeholder: Java 25, macOS 15, Docker Compose v2
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 Relevant logs or responses
+      description: Remove credentials and other sensitive information before sharing.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: ✅ Before submitting
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I removed secrets and personal data from the report.
+          required: true
