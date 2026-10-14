@@ -27,8 +27,8 @@ services:
       POSTGRES_DATABASE: ${POSTGRES_DATABASE:-simplejavaapi}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
       JPA_SHOW_SQL: ${JPA_SHOW_SQL:-false}
+      FLYWAY_BASELINE_ON_MIGRATE: ${FLYWAY_BASELINE_ON_MIGRATE:-false}
       OPENAPI_ENABLED: ${OPENAPI_ENABLED:-true}
     ports:
       - '${PORT:-9080}:${PORT:-9080}'

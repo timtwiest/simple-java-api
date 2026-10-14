@@ -1,0 +1,5 @@
+ALTER TABLE users
+    ALTER COLUMN email SET NOT NULL,
+    ALTER COLUMN name SET NOT NULL,
+    ALTER COLUMN updated_at SET NOT NULL,
+    ALTER COLUMN created_at SET NOT NULL;

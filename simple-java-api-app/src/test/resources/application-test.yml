@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:simplejavaapi;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:tc:postgresql:16.15-bookworm:///simplejavaapi
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: false
 springdoc:
   api-docs:

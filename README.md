@@ -11,10 +11,12 @@ A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and
 
 - **Contract first:** OpenAPI documents generate the Spring controller interfaces and response models.
 - **Clear module boundaries:** API contracts and generated code are separate from application code.
-- **Ready for local development:** Run PostgreSQL by itself or start the complete stack with Docker Compose.
+- **Versioned database changes:** Flyway owns the PostgreSQL schema and Hibernate validates it at startup.
+- **Production-like tests:** Integration tests use PostgreSQL 16 through Testcontainers instead of an in-memory substitute.
 - **Built-in API explorer:** Swagger UI is available while the application is running.
-- **Tested at multiple levels:** JUnit 6, Mockito, Cucumber, REST Assured, and JaCoCo are configured.
-- **Automated builds:** GitHub Actions verifies every branch and pull request.
+- **Quality gates:** JUnit 6, Mockito, Cucumber, REST Assured, JaCoCo, and SpotBugs run in Maven verification.
+- **Supply-chain checks:** CI publishes a CycloneDX SBOM and scans it with OSV-Scanner.
+- **Production operations:** Actuator readiness/liveness probes, ECS JSON logs, TLS-verified database connections, and backup guidance are included.
 
 ## Quick start
 
@@ -57,7 +59,7 @@ docker compose up -d postgres-db
 ./mvnw spring-boot:run -pl simple-java-api-app
 ```
 
-Development defaults are intentionally local-friendly (`postgres` / `postgres`). Override them through environment variables outside local development; see [development documentation](docs/development.md#configuration).
+Development defaults are intentionally local-friendly (`postgres` / `postgres`). The `prod` profile instead requires explicit database settings, disables Swagger/OpenAPI, and keeps Hibernate in validation-only mode. See [development documentation](docs/development.md#configuration).
 
 ## API
 
@@ -89,6 +91,7 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 - [Architecture](docs/architecture.md)
 - [API guide](docs/api.md)
 - [Development and configuration](docs/development.md)
+- [Production operations](docs/operations.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
 - [Code of conduct](CODE_OF_CONDUCT.md)
@@ -96,7 +99,6 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 ## Roadmap
 
 - Add create, update, and delete operations for users.
-- Add schema migrations with Flyway.
 - Add authentication and authorization.
 - Publish a versioned container image.
 

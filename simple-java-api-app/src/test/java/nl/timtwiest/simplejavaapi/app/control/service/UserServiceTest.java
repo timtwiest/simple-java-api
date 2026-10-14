@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
+    private static final Sort BY_ID = Sort.by("id").ascending();
 
     @Mock
     private UserRepository userRepository;
@@ -59,7 +61,7 @@ class UserServiceTest {
 
         PaginatedUserResponse response = underTest.users(null, null);
 
-        verify(userRepository).findAll(PageRequest.of(0, 10));
+        verify(userRepository).findAll(PageRequest.of(0, 10, BY_ID));
         assertEquals(1, response.getCurrentPage());
         assertEquals(0, response.getTotalItems());
     }
@@ -71,6 +73,6 @@ class UserServiceTest {
 
         underTest.users(0, 0);
 
-        verify(userRepository).findAll(PageRequest.of(0, 1));
+        verify(userRepository).findAll(PageRequest.of(0, 1, BY_ID));
     }
 }
