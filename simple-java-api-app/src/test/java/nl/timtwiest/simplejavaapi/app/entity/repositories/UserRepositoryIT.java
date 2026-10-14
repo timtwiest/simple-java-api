@@ -23,15 +23,15 @@ class UserRepositoryIT {
 
     @Test
     void shouldPersistAndPageUsersInPostgreSql() {
-        underTest.saveAndFlush(new UserEntity("John Doe", "user@example.com"));
+        underTest.saveAndFlush(new UserEntity("Han Solo", "han.solo@example.com"));
 
         Page<UserEntity> result = underTest.findAll(PageRequest.of(0, 10));
 
         assertEquals(1, result.getTotalElements());
         UserEntity savedUser = result.getContent().getFirst();
         assertNotNull(savedUser.getId());
-        assertEquals("user@example.com", savedUser.getEmail());
-        assertEquals("John Doe", savedUser.getName());
+        assertEquals("han.solo@example.com", savedUser.getEmail());
+        assertEquals("Han Solo", savedUser.getName());
         assertNotNull(savedUser.getCreatedAt());
         assertNotNull(savedUser.getUpdatedAt());
     }

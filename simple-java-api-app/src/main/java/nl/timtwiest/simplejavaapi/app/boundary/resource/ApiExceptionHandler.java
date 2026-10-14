@@ -1,6 +1,8 @@
 package nl.timtwiest.simplejavaapi.app.boundary.resource;
 
+import jakarta.validation.ConstraintViolationException;
 import nl.timtwiest.simplejavaapi.api.models.ErrorResponse;
+import nl.timtwiest.simplejavaapi.app.control.service.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -28,6 +32,27 @@ public class ApiExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleUnreadableMessage() {
         return errorResponse(HttpStatus.BAD_REQUEST, "Bad request", List.of("Malformed request body"));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRequest(MethodArgumentNotValidException exception) {
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream()
+                .map(error -> "Invalid value for field '%s'".formatted(error.getField()))
+                .distinct()
+                .sorted()
+                .toList();
+        return errorResponse(HttpStatus.BAD_REQUEST, "Bad request", errors);
+    }
+
+    @ExceptionHandler({HandlerMethodValidationException.class, ConstraintViolationException.class})
+    public ResponseEntity<ErrorResponse> handleConstraintViolation() {
+        return errorResponse(HttpStatus.BAD_REQUEST, "Bad request", List.of("Request validation failed"));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMissingUser(UserNotFoundException exception) {
+        return errorResponse(HttpStatus.NOT_FOUND, "Not Found",
+                List.of("User %d was not found".formatted(exception.getUserId())));
     }
 
     @ExceptionHandler(ErrorResponseException.class)

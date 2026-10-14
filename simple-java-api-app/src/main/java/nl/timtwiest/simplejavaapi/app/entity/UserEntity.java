@@ -64,6 +64,11 @@ public class UserEntity {
         this.name = name;
     }
 
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }

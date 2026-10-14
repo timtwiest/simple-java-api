@@ -5,7 +5,7 @@
     <parent>
         <groupId>nl.timtwiest</groupId>
         <artifactId>simple-java-api</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>simple-java-api-app</artifactId>
 
@@ -52,6 +52,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -187,6 +191,7 @@
                     <effort>Max</effort>
                     <threshold>Medium</threshold>
                     <failOnError>true</failOnError>
+                    <excludeFilterFile>${project.basedir}/config/spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
                 <executions>
                     <execution>

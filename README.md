@@ -67,6 +67,10 @@ Development defaults are intentionally local-friendly (`postgres` / `postgres`).
 | --- | --- | --- |
 | `GET` | `/liveness` | Report whether the service is running. |
 | `GET` | `/api/v1/users?page=1&limit=10` | Return a paginated list of users. |
+| `POST` | `/api/v1/users` | Create a user. |
+| `GET` | `/api/v1/users/{userId}` | Retrieve a user. |
+| `PUT` | `/api/v1/users/{userId}` | Fully replace a user. |
+| `DELETE` | `/api/v1/users/{userId}` | Delete a user. |
 
 The source contracts live in [`simple-java-api-api/src/main/resources/contract`](simple-java-api-api/src/main/resources/contract). Maven generates the Java interfaces and models during the `generate-sources` phase with Spring Boot 4 settings; generated files are never edited by hand.
 
@@ -98,9 +102,19 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 
 ## Roadmap
 
-- Add create, update, and delete operations for users.
 - Add authentication and authorization.
-- Publish a versioned container image.
+
+## Container releases
+
+Tags matching `vMAJOR.MINOR.PATCH` publish a tested and vulnerability-scanned image to `ghcr.io/timtwiest/simple-java-api`. Each release receives full, major/minor, major, and `latest` tags plus build provenance and an SBOM.
+
+```bash
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+docker pull ghcr.io/timtwiest/simple-java-api:1.0.0
+```
+
+Only tag commits already present on `master`. Creating the tag starts the release workflow and makes the container package externally visible according to its GHCR package settings.
 
 ## License
 

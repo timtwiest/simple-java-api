@@ -84,6 +84,7 @@ Before baselining, confirm that `email`, `name`, `updated_at`, and `created_at` 
 - Cucumber features under `simple-java-api-app/src/test/resources/features` exercise the running application with REST Assured.
 - The production profile has an integration test that verifies its safe configuration defaults.
 - GitHub Actions runs `./mvnw --batch-mode --no-transfer-progress clean verify`, scans the generated SBOM with OSV-Scanner, builds and scans the container image with Trivy, and uploads both JaCoCo and SBOM artifacts. Docker is required locally and is available on GitHub-hosted Linux runners.
+- Semantic version tags run a separate workflow that repeats verification and image scanning before publishing versioned tags to GHCR. See the README for the release commands; never move or reuse an existing version tag.
 
 ## Troubleshooting
 

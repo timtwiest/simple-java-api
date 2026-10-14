@@ -34,8 +34,95 @@ paths:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
+    post:
+      tags:
+        - user
+      summary: Create a user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../common/User.yaml#/components/schemas/UserRequest'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/User.yaml#/components/schemas/UserDetailResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+  /api/v1/users/{userId}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags:
+        - user
+      summary: Get a user by ID
+      operationId: getUser
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/User.yaml#/components/schemas/UserDetailResponse'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - user
+      summary: Replace a user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../common/User.yaml#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/User.yaml#/components/schemas/UserDetailResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - user
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        204:
+          description: Deleted
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
 
 components:
+  parameters:
+    UserId:
+      in: path
+      name: userId
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      description: Numeric user identifier
   schemas:
     PaginatedUserResponse:
       type: object
@@ -59,6 +146,12 @@ components:
   responses:
     400:
       description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '../../common/Error.yaml#/components/schemas/ErrorResponse'
+    404:
+      description: User not found
       content:
         application/json:
           schema:
