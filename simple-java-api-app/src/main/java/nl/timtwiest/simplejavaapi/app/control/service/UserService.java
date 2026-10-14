@@ -4,6 +4,7 @@ import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserDetailResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserRequest;
 import nl.timtwiest.simplejavaapi.api.models.UserResponse;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
 import nl.timtwiest.simplejavaapi.app.entity.repositories.UserRepository;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class UserService {
         Page<UserEntity> userPage = userRepository.findAll(pageable);
 
         List<UserResponse> userResponses = userPage.getContent().stream()
-                .map(entity -> new UserResponse(entity.getName(), entity.getEmail()))
+                .map(entity -> new UserResponse(entity.getName(), entity.getEmail(), entity.getRole()))
                 .toList();
 
         return new PaginatedUserResponse(
@@ -50,7 +51,8 @@ public class UserService {
 
     @Transactional
     public UserDetailResponse create(UserRequest request) {
-        UserEntity savedUser = userRepository.save(new UserEntity(request.getName(), request.getEmail()));
+        UserEntity savedUser = userRepository.save(new UserEntity(
+                request.getName(), request.getEmail(), roleOrRebel(request.getRole())));
         return toDetailResponse(savedUser);
     }
 
@@ -62,7 +64,7 @@ public class UserService {
     @Transactional
     public UserDetailResponse update(long userId, UserRequest request) {
         UserEntity user = findUser(userId);
-        user.update(request.getName(), request.getEmail());
+        user.update(request.getName(), request.getEmail(), roleOrRebel(request.getRole()));
         return toDetailResponse(userRepository.save(user));
     }
 
@@ -77,6 +79,10 @@ public class UserService {
     }
 
     private UserDetailResponse toDetailResponse(UserEntity entity) {
-        return new UserDetailResponse(entity.getId(), entity.getName(), entity.getEmail());
+        return new UserDetailResponse(entity.getId(), entity.getName(), entity.getEmail(), entity.getRole());
+    }
+
+    private UserRole roleOrRebel(UserRole role) {
+        return role == null ? UserRole.REBEL : role;
     }
 }

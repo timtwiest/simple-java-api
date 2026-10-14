@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Quote
+servers: [ ]
+paths: { }
+
+components:
+  schemas:
+    QuoteResponse:
+      type: object
+      properties:
+        quote:
+          type: string
+          example: May your builds be green and your dependencies current.
+      required:
+        - quote

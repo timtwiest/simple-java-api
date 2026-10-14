@@ -1,0 +1,6 @@
+ALTER TABLE users
+    ADD COLUMN role VARCHAR(32) NOT NULL DEFAULT 'REBEL';
+
+ALTER TABLE users
+    ADD CONSTRAINT users_role_check
+        CHECK (role IN ('JEDI', 'SENATOR', 'SMUGGLER', 'SITH', 'REBEL'));

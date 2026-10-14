@@ -5,7 +5,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and OpenAPI. The project demonstrates generated API interfaces, a layered application module, pagination, containerized local development, and both unit and behavior-driven tests.
+A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and OpenAPI. The project demonstrates generated API interfaces, a layered application module, pagination, containerized local development, and both unit and behavior-driven tests. Its examples come from a JVM far, far away.
 
 ## Highlights
 
@@ -18,7 +18,7 @@ A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and
 - **Supply-chain checks:** CI publishes a CycloneDX SBOM and scans it with OSV-Scanner.
 - **Production operations:** Actuator readiness/liveness probes, ECS JSON logs, TLS-verified database connections, and backup guidance are included.
 
-## Quick start
+## Launch sequence
 
 The quickest way to run the complete stack is Docker Compose:
 
@@ -40,11 +40,16 @@ Try the API from another terminal:
 ```bash
 curl http://localhost:9080/liveness
 curl "http://localhost:9080/api/v1/users?page=1&limit=10"
+curl http://localhost:9080/api/v1/quotes/random
 ```
+
+Compose names the API container `millennium-falcon-api` and PostgreSQL `death-star-database`, because infrastructure deserves a little personality too.
+
+### Destroy the application
 
 Stop the stack with `docker compose down`. Database data remains in `./.volumes/postgres/data`; remove that directory separately only when you intentionally want to reset local data.
 
-## Run from source
+## Choose your path
 
 You need Java 25 and Docker with Compose. The Maven Wrapper downloads the pinned Maven 3.10.0 distribution automatically, so a system Maven installation is optional. SDKMAN users can install and select the repository JDK with `sdk env install`.
 
@@ -66,6 +71,7 @@ Development defaults are intentionally local-friendly (`postgres` / `postgres`).
 | Method | Path | Purpose |
 | --- | --- | --- |
 | `GET` | `/liveness` | Report whether the service is running. |
+| `GET` | `/api/v1/quotes/random` | Return an original galactic developer quote. |
 | `GET` | `/api/v1/users?page=1&limit=10` | Return a paginated list of users. |
 | `POST` | `/api/v1/users` | Create a user. |
 | `GET` | `/api/v1/users/{userId}` | Retrieve a user. |
@@ -73,6 +79,10 @@ Development defaults are intentionally local-friendly (`postgres` / `postgres`).
 | `DELETE` | `/api/v1/users/{userId}` | Delete a user. |
 
 The source contracts live in [`simple-java-api-api/src/main/resources/contract`](simple-java-api-api/src/main/resources/contract). Maven generates the Java interfaces and models during the `generate-sources` phase with Spring Boot 4 settings; generated files are never edited by hand.
+
+User examples may include the roles `JEDI`, `SENATOR`, `SMUGGLER`, `SITH`, and `REBEL`. Existing requests without a role remain valid and default to `REBEL`. Every HTTP response includes the harmless `X-Force-Status: balanced` header.
+
+The themed examples are an unofficial developer joke. This project is not affiliated with or endorsed by Lucasfilm or Disney, and the quote endpoint uses original text rather than movie dialogue.
 
 See [API documentation](docs/api.md) for response examples and contract details. Ready-to-run requests for JetBrains HTTP Client are available in [`http/`](http/).
 
@@ -109,12 +119,12 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 Tags matching `vMAJOR.MINOR.PATCH` publish a tested and vulnerability-scanned image to `ghcr.io/timtwiest/simple-java-api`. Each release receives full, major/minor, major, and `latest` tags plus build provenance and an SBOM.
 
 ```bash
-git tag -a v1.0.3 -m "Release v1.0.3"
-git push origin v1.0.3
-docker pull ghcr.io/timtwiest/simple-java-api:1.0.3
+git tag -a v1.1.0 -m "Release v1.1.0"
+git push origin v1.1.0
+docker pull ghcr.io/timtwiest/simple-java-api:1.1.0
 ```
 
-Only tag commits already present on `master`. Creating the tag starts the release workflow and makes the container package externally visible according to its GHCR package settings.
+Only tag commits already present on `master`. Creating the tag starts the release workflow, publishes the container package, and creates GitHub release notes with an `Episode <version>` title.
 
 ## License
 

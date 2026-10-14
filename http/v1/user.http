@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
   "name": "Luke Skywalker",
-  "email": "luke.skywalker@example.com"
+  "email": "luke.skywalker@example.com",
+  "role": "JEDI"
 }
 
 ### Get User
@@ -23,7 +24,8 @@ Content-Type: application/json
 
 {
   "name": "Leia Organa",
-  "email": "leia.organa@example.com"
+  "email": "leia.organa@example.com",
+  "role": "SENATOR"
 }
 
 ### Delete User

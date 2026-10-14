@@ -37,14 +37,14 @@ class DatabaseMigrationIT {
                 FROM information_schema.columns
                 WHERE table_schema = 'public'
                   AND table_name = 'users'
-                  AND column_name IN ('id', 'email', 'name', 'updated_at', 'created_at')
+                  AND column_name IN ('id', 'email', 'name', 'role', 'updated_at', 'created_at')
                   AND is_nullable = 'NO'
                 """, Integer.class);
 
         assertTrue(databaseVersion.startsWith("PostgreSQL 16."));
-        assertEquals(3, successfulMigrations);
-        assertEquals("3", currentVersion);
+        assertEquals(4, successfulMigrations);
+        assertEquals("4", currentVersion);
         assertEquals("timestamp with time zone", timestampType);
-        assertEquals(5, requiredColumns);
+        assertEquals(6, requiredColumns);
     }
 }

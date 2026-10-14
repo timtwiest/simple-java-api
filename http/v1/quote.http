@@ -1,0 +1,3 @@
+### Receive wisdom from a JVM far, far away
+GET {{host}}/api/v1/quotes/random
+Accept: application/json

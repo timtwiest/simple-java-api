@@ -2,10 +2,13 @@ package nl.timtwiest.simplejavaapi.app.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -24,6 +27,10 @@ public class UserEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 32)
+    private UserRole role;
+
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
@@ -36,8 +43,13 @@ public class UserEntity {
     }
 
     public UserEntity(String name, String email) {
+        this(name, email, UserRole.REBEL);
+    }
+
+    public UserEntity(String name, String email, UserRole role) {
         this.name = name;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {
@@ -64,9 +76,14 @@ public class UserEntity {
         this.name = name;
     }
 
-    public void update(String name, String email) {
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void update(String name, String email, UserRole role) {
         this.name = name;
         this.email = email;
+        this.role = role;
     }
 
     public Instant getUpdatedAt() {
@@ -83,6 +100,7 @@ public class UserEntity {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
+                ", role=" + role +
                 ", updatedAt=" + updatedAt +
                 ", createdAt=" + createdAt +
                 '}';

@@ -21,7 +21,10 @@ public class LivenessImpl implements LivenessApiController {
      */
     @Override
     public ResponseEntity<LivenessResponse> liveness() {
-        return ResponseEntity.ok(new LivenessResponse(HttpStatus.OK.toString(), System.currentTimeMillis()));
+        LivenessResponse response = new LivenessResponse(HttpStatus.OK.toString(), System.currentTimeMillis())
+                .message("The Force is strong with this API")
+                .hyperdrive("online");
+        return ResponseEntity.ok(response);
     }
 }
 

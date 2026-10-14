@@ -90,7 +90,7 @@ Before baselining, confirm that `email`, `name`, `updated_at`, and `created_at` 
 
 If port `5432` is already in use, stop the local PostgreSQL instance or change the host-side Compose port. If the API starts before PostgreSQL is ready, inspect both services with `docker compose ps` and `docker compose logs`.
 
-The Compose database uses the bind-mounted `./.volumes/postgres/data` directory. `docker compose down --volumes` does not remove that directory. To reset local data, stop the stack and remove that directory manually only when the data is disposable.
+The Compose database is named `death-star-database` and uses the bind-mounted `./.volumes/postgres/data` directory. `docker compose down --volumes` does not remove that directory. To reset local data, stop the stack and remove that directory manually only when the data is disposable.
 
 ```bash
 docker compose down

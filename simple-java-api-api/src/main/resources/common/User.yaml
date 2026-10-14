@@ -7,6 +7,16 @@ paths: { }
 
 components:
   schemas:
+    UserRole:
+      type: string
+      enum:
+        - JEDI
+        - SENATOR
+        - SMUGGLER
+        - SITH
+        - REBEL
+      default: REBEL
+      example: JEDI
     UserRequest:
       type: object
       properties:
@@ -22,6 +32,8 @@ components:
           minLength: 1
           maxLength: 255
           example: luke.skywalker@example.com
+        role:
+          $ref: '#/components/schemas/UserRole'
       required:
         - name
         - email
@@ -39,10 +51,13 @@ components:
           type: string
           format: email
           example: luke.skywalker@example.com
+        role:
+          $ref: '#/components/schemas/UserRole'
       required:
         - id
         - name
         - email
+        - role
     UserResponse:
       type: object
       properties:
@@ -52,6 +67,9 @@ components:
         email:
           type: string
           example: luke.skywalker@example.com
+        role:
+          $ref: '#/components/schemas/UserRole'
       required:
         - name
         - email
+        - role

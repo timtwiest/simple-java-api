@@ -3,6 +3,7 @@ package nl.timtwiest.simplejavaapi.app.control.service;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserDetailResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserRequest;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
 import nl.timtwiest.simplejavaapi.app.entity.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,9 @@ class UserServiceTest {
     private UserService underTest;
 
     @Test
-    void should_get_all_users() {
-        UserEntity userEntity1 = new UserEntity("Luke Skywalker", "luke.skywalker@example.com");
-        UserEntity userEntity2 = new UserEntity("Leia Organa", "leia.organa@example.com");
+    void shouldFindTheUsersWeAreLookingFor() {
+        UserEntity userEntity1 = new UserEntity("Luke Skywalker", "luke.skywalker@example.com", UserRole.JEDI);
+        UserEntity userEntity2 = new UserEntity("Leia Organa", "leia.organa@example.com", UserRole.SENATOR);
 
         List<UserEntity> mockUserEntities = List.of(userEntity1, userEntity2);
 
@@ -56,6 +57,8 @@ class UserServiceTest {
         assertEquals("luke.skywalker@example.com", response.getUsers().get(0).getEmail());
         assertEquals("Leia Organa", response.getUsers().get(1).getName());
         assertEquals("leia.organa@example.com", response.getUsers().get(1).getEmail());
+        assertEquals(UserRole.JEDI, response.getUsers().get(0).getRole());
+        assertEquals(UserRole.SENATOR, response.getUsers().get(1).getRole());
     }
 
     @Test
@@ -81,7 +84,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldCreateUser() {
+    void shouldWelcomeANewRebelWithoutAnExplicitRole() {
         doAnswer(invocation -> {
             UserEntity user = invocation.getArgument(0);
             user.setId(42L);
@@ -93,6 +96,7 @@ class UserServiceTest {
         assertEquals(42L, response.getId());
         assertEquals("Luke Skywalker", response.getName());
         assertEquals("luke.skywalker@example.com", response.getEmail());
+        assertEquals(UserRole.REBEL, response.getRole());
     }
 
     @Test
@@ -108,16 +112,18 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateUser() {
-        UserEntity user = new UserEntity("Anakin Skywalker", "anakin.skywalker@example.com");
+    void shouldTurnAnakinIntoDarthVader() {
+        UserEntity user = new UserEntity("Anakin Skywalker", "anakin.skywalker@example.com", UserRole.JEDI);
         user.setId(42L);
         when(userRepository.findById(42L)).thenReturn(java.util.Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
 
-        UserDetailResponse response = underTest.update(42L, new UserRequest("Darth Vader", "darth.vader@example.com"));
+        UserRequest request = new UserRequest("Darth Vader", "darth.vader@example.com").role(UserRole.SITH);
+        UserDetailResponse response = underTest.update(42L, request);
 
         assertEquals("Darth Vader", response.getName());
         assertEquals("darth.vader@example.com", response.getEmail());
+        assertEquals(UserRole.SITH, response.getRole());
     }
 
     @Test
@@ -132,7 +138,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldRejectMissingUser() {
+    void shouldNotFindTheDroidsWhenUserDoesNotExist() {
         when(userRepository.findById(42L)).thenReturn(java.util.Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> underTest.get(42L));

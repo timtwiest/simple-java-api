@@ -17,6 +17,12 @@ components:
           type: integer
           format: int64
           example: 1646050865668
+        message:
+          type: string
+          example: The Force is strong with this API
+        hyperdrive:
+          type: string
+          example: online
       required:
         - status
         - timestamp

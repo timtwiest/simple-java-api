@@ -5,7 +5,7 @@
     <parent>
         <groupId>nl.timtwiest</groupId>
         <artifactId>simple-java-api</artifactId>
-        <version>1.0.3</version>
+        <version>1.1.0</version>
     </parent>
     <artifactId>simple-java-api-api</artifactId>
 
@@ -88,6 +88,30 @@
                         <goals><goal>generate</goal></goals>
                         <configuration>
                             <inputSpec>${contract.dir}/v1/user-contract.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <apiNameSuffix>ApiController</apiNameSuffix>
+                            <modelPackage>nl.timtwiest.simplejavaapi.api.models</modelPackage>
+                            <apiPackage>nl.timtwiest.simplejavaapi.api</apiPackage>
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useSpringBoot4>true</useSpringBoot4>
+                                <useJackson3>true</useJackson3>
+                                <useJspecify>true</useJspecify>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <openApiNullable>false</openApiNullable>
+                                <generateJsonIncludeAnnotations>false</generateJsonIncludeAnnotations>
+                                <generateJsonSetterNullsAnnotations>false</generateJsonSetterNullsAnnotations>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-quote-contract</id>
+                        <goals><goal>generate</goal></goals>
+                        <configuration>
+                            <inputSpec>${contract.dir}/v1/quote-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <library>spring-boot</library>
                             <apiNameSuffix>ApiController</apiNameSuffix>

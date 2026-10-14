@@ -17,7 +17,7 @@ class LivenessImplTest {
     private LivenessImpl underTest;
 
     @Test
-    void should_test_liveness() {
+    void shouldReportThatTheForceAndHyperdriveAreReady() {
         ResponseEntity<LivenessResponse> responseEntity = underTest.liveness();
 
         assertNotNull(responseEntity);
@@ -27,5 +27,7 @@ class LivenessImplTest {
         assertNotNull(livenessResponse);
         assertEquals(HttpStatus.OK.toString().toUpperCase(), livenessResponse.getStatus());
         assertNotNull(livenessResponse.getTimestamp());
+        assertEquals("The Force is strong with this API", livenessResponse.getMessage());
+        assertEquals("online", livenessResponse.getHyperdrive());
     }
 }

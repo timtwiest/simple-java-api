@@ -7,7 +7,7 @@ on:
 
 permissions:
   actions: read
-  contents: read
+  contents: write
   packages: write
 
 concurrency:
@@ -170,3 +170,15 @@ jobs:
           provenance: mode=max
           sbom: true
           cache-from: type=gha
+
+      - name: Publish galactic release notes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Episode ${{ steps.release.outputs.version }}: The API Awakens"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --title "$title"
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes --title "$title"
+          fi

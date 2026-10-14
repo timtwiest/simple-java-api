@@ -3,6 +3,8 @@ package nl.timtwiest.simplejavaapi.integration;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.sql.Connection;
@@ -15,10 +17,12 @@ import java.time.OffsetDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LegacyDatabaseMigrationIT {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LegacyDatabaseMigrationIT.class);
 
     @Test
     void shouldBaselineLegacySchemaAndPreserveTimestampMeaning() throws Exception {
         try (var postgres = new PostgreSQLContainer("postgres:16.15-bookworm")) {
+            LOGGER.info("Launching PostgreSQL into hyperspace");
             postgres.start();
 
             try (Connection connection = DriverManager.getConnection(
@@ -36,7 +40,7 @@ class LegacyDatabaseMigrationIT {
                         """);
                 statement.execute("""
                         INSERT INTO users (email, name, updated_at, created_at)
-                        VALUES ('legacy@example.com', 'Legacy User',
+                        VALUES ('qui-gon.jinn@example.com', 'Qui-Gon Jinn',
                                 TIMESTAMP '2024-01-02 03:04:05', TIMESTAMP '2024-01-02 03:04:05')
                         """);
             }
@@ -54,7 +58,7 @@ class LegacyDatabaseMigrationIT {
                 statement.execute("SET TIME ZONE 'Europe/Amsterdam'");
 
                 try (ResultSet result = statement.executeQuery("""
-                        SELECT email, created_at, data_type,
+                        SELECT email, role, created_at, data_type,
                                (SELECT version
                                 FROM flyway_schema_history
                                 WHERE success
@@ -67,11 +71,12 @@ class LegacyDatabaseMigrationIT {
                          AND column_name = 'created_at'
                         """)) {
                     result.next();
-                    assertEquals("legacy@example.com", result.getString("email"));
+                    assertEquals("qui-gon.jinn@example.com", result.getString("email"));
+                    assertEquals("REBEL", result.getString("role"));
                     assertEquals(Instant.parse("2024-01-02T02:04:05Z"),
                             result.getObject("created_at", OffsetDateTime.class).toInstant());
                     assertEquals("timestamp with time zone", result.getString("data_type"));
-                    assertEquals("3", result.getString("migration_version"));
+                    assertEquals("4", result.getString("migration_version"));
                 }
             }
         }

@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Galactic quotes
+
+paths:
+  /api/v1/quotes/random:
+    get:
+      tags:
+        - quote
+      summary: Receive a random message from a JVM far, far away
+      operationId: randomQuote
+      responses:
+        200:
+          description: A freshly selected galactic developer quote
+          content:
+            application/json:
+              schema:
+                $ref: '../../common/Quote.yaml#/components/schemas/QuoteResponse'
+        500:
+          $ref: '#/components/responses/500'
+
+components:
+  responses:
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '../../common/Error.yaml#/components/schemas/ErrorResponse'

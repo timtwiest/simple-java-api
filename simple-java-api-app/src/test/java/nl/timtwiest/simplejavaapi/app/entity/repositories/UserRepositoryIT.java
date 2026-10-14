@@ -1,6 +1,7 @@
 package nl.timtwiest.simplejavaapi.app.entity.repositories;
 
 import nl.timtwiest.simplejavaapi.app.App;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ class UserRepositoryIT {
 
     @Test
     void shouldPersistAndPageUsersInPostgreSql() {
-        underTest.saveAndFlush(new UserEntity("Han Solo", "han.solo@example.com"));
+        underTest.saveAndFlush(new UserEntity("Han Solo", "han.solo@example.com", UserRole.SMUGGLER));
 
         Page<UserEntity> result = underTest.findAll(PageRequest.of(0, 10));
 
@@ -32,6 +33,7 @@ class UserRepositoryIT {
         assertNotNull(savedUser.getId());
         assertEquals("han.solo@example.com", savedUser.getEmail());
         assertEquals("Han Solo", savedUser.getName());
+        assertEquals(UserRole.SMUGGLER, savedUser.getRole());
         assertNotNull(savedUser.getCreatedAt());
         assertNotNull(savedUser.getUpdatedAt());
     }

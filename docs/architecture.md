@@ -46,7 +46,9 @@ Responses travel back through the same layers. The service maps persistence enti
 
 Flyway applies versioned SQL before JPA starts. Hibernate uses `ddl-auto=validate`, so it detects drift but never mutates the database. Repository, migration, and HTTP integration tests all use a real PostgreSQL 16 container.
 
-The user listing is ordered by primary key before pagination so page boundaries are deterministic. The persistence schema enforces all response-required fields as non-null.
+The user listing is ordered by primary key before pagination so page boundaries are deterministic. The persistence schema enforces all response-required fields as non-null, including the constrained galactic user role. Existing callers that omit a role receive the `REBEL` default.
+
+The quote endpoint intentionally keeps its small, original message collection in application code: it needs no persistence or third-party dependency. A servlet filter adds the decorative `X-Force-Status` response header without coupling it to individual controllers.
 
 In production, Spring Boot Actuator runs on a separate management port with only health and info exposed. Health details and component names remain hidden, while liveness and readiness probe groups are available to the deployment platform.
 

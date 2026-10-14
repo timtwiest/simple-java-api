@@ -3,6 +3,7 @@ package nl.timtwiest.simplejavaapi.app.boundary.resource.v1;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserDetailResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserRequest;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import nl.timtwiest.simplejavaapi.app.control.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +48,7 @@ class UserImplTest {
     @Test
     void shouldCreateUserWithLocation() {
         UserRequest request = new UserRequest("Luke Skywalker", "luke.skywalker@example.com");
-        UserDetailResponse expected = new UserDetailResponse(42L, request.getName(), request.getEmail());
+        UserDetailResponse expected = new UserDetailResponse(42L, request.getName(), request.getEmail(), UserRole.JEDI);
         when(userService.create(request)).thenReturn(expected);
 
         ResponseEntity<UserDetailResponse> response = underTest.createUser(request);
@@ -59,7 +60,8 @@ class UserImplTest {
 
     @Test
     void shouldRetrieveOneUser() {
-        UserDetailResponse expected = new UserDetailResponse(42L, "Luke Skywalker", "luke.skywalker@example.com");
+        UserDetailResponse expected = new UserDetailResponse(
+                42L, "Luke Skywalker", "luke.skywalker@example.com", UserRole.JEDI);
         when(userService.get(42L)).thenReturn(expected);
 
         ResponseEntity<UserDetailResponse> response = underTest.getUser(42L);
@@ -71,7 +73,8 @@ class UserImplTest {
     @Test
     void shouldUpdateUser() {
         UserRequest request = new UserRequest("Leia Organa", "leia.organa@example.com");
-        UserDetailResponse expected = new UserDetailResponse(42L, request.getName(), request.getEmail());
+        UserDetailResponse expected = new UserDetailResponse(
+                42L, request.getName(), request.getEmail(), UserRole.SENATOR);
         when(userService.update(42L, request)).thenReturn(expected);
 
         ResponseEntity<UserDetailResponse> response = underTest.updateUser(42L, request);

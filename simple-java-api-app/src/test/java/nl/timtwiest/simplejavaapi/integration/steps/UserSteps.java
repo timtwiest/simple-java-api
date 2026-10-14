@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
+import nl.timtwiest.simplejavaapi.api.models.UserRole;
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
 import nl.timtwiest.simplejavaapi.app.entity.repositories.UserRepository;
 import nl.timtwiest.simplejavaapi.integration.common.SpringStepDefinition;
@@ -30,7 +31,8 @@ public class UserSteps extends SpringStepDefinition {
     @Given("the database has been populated with multiple user entries")
     public void populateDatabaseWithUserEntries(List<Map<String, String>> usersTable) {
         usersTable.forEach(row -> {
-            UserEntity user = new UserEntity(row.get("name"), row.get("email"));
+            UserEntity user = new UserEntity(
+                    row.get("name"), row.get("email"), UserRole.valueOf(row.get("role")));
             userRepository.save(user);
         });
 
