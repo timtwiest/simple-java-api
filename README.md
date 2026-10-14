@@ -109,9 +109,9 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 Tags matching `vMAJOR.MINOR.PATCH` publish a tested and vulnerability-scanned image to `ghcr.io/timtwiest/simple-java-api`. Each release receives full, major/minor, major, and `latest` tags plus build provenance and an SBOM.
 
 ```bash
-git tag -a v1.0.2 -m "Release v1.0.2"
-git push origin v1.0.2
-docker pull ghcr.io/timtwiest/simple-java-api:1.0.2
+git tag -a v1.0.3 -m "Release v1.0.3"
+git push origin v1.0.3
+docker pull ghcr.io/timtwiest/simple-java-api:1.0.3
 ```
 
 Only tag commits already present on `master`. Creating the tag starts the release workflow and makes the container package externally visible according to its GHCR package settings.
