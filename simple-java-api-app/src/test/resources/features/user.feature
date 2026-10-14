@@ -18,3 +18,7 @@ Feature: API-USER: This Gherkin file tests the User-service
       | Jane Doe    | jane.doe@example.com    |
     When I request page 3 of users with a limit of 2
     Then the response should correctly show page 3 with 0 users displayed out of a total of 2 users
+
+  Scenario: Rejecting a non-numeric page parameter consistently
+    When I request users with a non-numeric page
+    Then the API should return the standard bad-request response

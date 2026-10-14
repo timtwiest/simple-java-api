@@ -1,6 +1,6 @@
 services:
   postgres-db:
-    image: postgres:16.2-bookworm
+    image: postgres:16.15-bookworm
     environment:
       POSTGRES_DB: ${POSTGRES_DATABASE:-simplejavaapi}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -29,6 +29,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
       JPA_SHOW_SQL: ${JPA_SHOW_SQL:-false}
+      OPENAPI_ENABLED: ${OPENAPI_ENABLED:-true}
     ports:
       - '${PORT:-9080}:${PORT:-9080}'
     depends_on:

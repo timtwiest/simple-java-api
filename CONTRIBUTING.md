@@ -7,7 +7,7 @@ Thanks for taking the time to improve Simple Java API.
 1. Fork the repository and create a focused branch.
 2. Start PostgreSQL with `docker compose up -d postgres-db`.
 3. Make the smallest change that solves the problem.
-4. Run `mvn clean verify` before opening a pull request.
+4. Run `./mvnw clean verify` before opening a pull request.
 5. Update the OpenAPI contract and documentation when behavior changes.
 
 Use clear commit messages and include tests for new behavior or bug fixes. Keep generated sources out of commits; Maven recreates them from the files in `simple-java-api-api/src/main/resources/contract`.

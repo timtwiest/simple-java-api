@@ -2,40 +2,32 @@ package nl.timtwiest.simplejavaapi.app.entity.repositories;
 
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
+import org.springframework.data.domain.PageRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith(MockitoExtension.class)
+@DataJpaTest(showSql = false)
 class UserRepositoryTest {
 
-    @Mock
+    @Autowired
     private UserRepository underTest;
 
     @Test
-    void should_find_all_pageables() {
-        UserEntity userEntity = UserEntity.builder()
-                .email("user@example.com")
-                .name("John Doe")
-                .build();
+    void shouldPersistAndPageUsers() {
+        underTest.save(new UserEntity("John Doe", "user@example.com"));
 
-        Page<UserEntity> userPage = new PageImpl<>(List.of(userEntity));
-
-        when(underTest.findAll(any(Pageable.class))).thenReturn(userPage);
-
-        Page<UserEntity> result = underTest.findAll(Pageable.unpaged());
+        Page<UserEntity> result = underTest.findAll(PageRequest.of(0, 10));
 
         assertEquals(1, result.getTotalElements());
-        assertEquals("user@example.com", result.getContent().getFirst().getEmail());
-        assertEquals("John Doe", result.getContent().getFirst().getName());
+        UserEntity savedUser = result.getContent().getFirst();
+        assertNotNull(savedUser.getId());
+        assertEquals("user@example.com", savedUser.getEmail());
+        assertEquals("John Doe", savedUser.getName());
+        assertNotNull(savedUser.getCreatedAt());
+        assertNotNull(savedUser.getUpdatedAt());
     }
 }

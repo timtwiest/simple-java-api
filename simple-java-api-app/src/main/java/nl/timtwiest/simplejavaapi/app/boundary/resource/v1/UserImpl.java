@@ -1,6 +1,5 @@
 package nl.timtwiest.simplejavaapi.app.boundary.resource.v1;
 
-import lombok.AllArgsConstructor;
 import nl.timtwiest.simplejavaapi.api.UserApiController;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
 import nl.timtwiest.simplejavaapi.app.control.service.UserService;
@@ -12,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
  * This class provides endpoints for retrieving user information within the application.
  */
 @RestController
-@AllArgsConstructor
 public class UserImpl implements UserApiController {
     private final UserService userService;
+
+    public UserImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Retrieves a list of users.

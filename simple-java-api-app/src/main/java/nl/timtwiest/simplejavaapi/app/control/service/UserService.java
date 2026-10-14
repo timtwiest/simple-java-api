@@ -1,6 +1,5 @@
 package nl.timtwiest.simplejavaapi.app.control.service;
 
-import lombok.AllArgsConstructor;
 import nl.timtwiest.simplejavaapi.api.models.PaginatedUserResponse;
 import nl.timtwiest.simplejavaapi.api.models.UserResponse;
 import nl.timtwiest.simplejavaapi.app.entity.UserEntity;
@@ -10,35 +9,34 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
+    private static final int DEFAULT_PAGE = 1;
+    private static final int DEFAULT_LIMIT = 10;
 
-    public PaginatedUserResponse users(int page, int limit) {
-        page = Math.max(page - 1, 0);
-        limit = Math.max(limit, 1);
+    private final UserRepository userRepository;
 
-        Pageable pageable = PageRequest.of(page, limit);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public PaginatedUserResponse users(Integer page, Integer limit) {
+        int requestedPage = page == null ? DEFAULT_PAGE : page;
+        int requestedLimit = limit == null ? DEFAULT_LIMIT : limit;
+        Pageable pageable = PageRequest.of(Math.max(requestedPage - 1, 0), Math.max(requestedLimit, 1));
 
         Page<UserEntity> userPage = userRepository.findAll(pageable);
 
         List<UserResponse> userResponses = userPage.getContent().stream()
-                .map(entity -> UserResponse.builder()
-                        .name(entity.getName())
-                        .email(entity.getEmail())
-                        .build())
-                .collect(Collectors.toCollection(ArrayList::new));
+                .map(entity -> new UserResponse(entity.getName(), entity.getEmail()))
+                .toList();
 
-        return PaginatedUserResponse.builder()
-                .currentPage(userPage.getNumber() + 1)
-                .totalPages(userPage.getTotalPages())
-                .totalItems(userPage.getTotalElements())
-                .users(userResponses)
-                .build();
+        return new PaginatedUserResponse(
+                userPage.getNumber() + 1,
+                userPage.getTotalPages(),
+                userPage.getTotalElements(),
+                userResponses);
     }
 }

@@ -15,6 +15,7 @@ Keeping generated types in a dedicated module makes the HTTP contract explicit a
 This module contains the executable Spring Boot application:
 
 - `boundary/resource` implements generated controller interfaces.
+- `boundary/resource/ApiExceptionHandler` maps malformed input and unexpected failures to the contract's `ErrorResponse` shape without exposing internal exception details.
 - `control/service` contains application behavior and maps entities to API models.
 - `entity` contains JPA entities and repositories.
 - `resources/config` separates server, database, and OpenAPI settings.
@@ -45,7 +46,7 @@ Responses travel back through the same layers. The service maps persistence enti
 ## Contract workflow
 
 1. Change a YAML contract under `simple-java-api-api/src/main/resources/contract` or a schema under `common`.
-2. Run `mvn clean verify` from the repository root.
+2. Run `./mvnw clean verify` from the repository root.
 3. Implement any new generated interface methods in the application module.
 4. Update tests, [`docs/api.md`](api.md), and requests under `http/`.
 

@@ -1,38 +1,24 @@
 package nl.timtwiest.simplejavaapi.app.entity;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@ExtendWith(MockitoExtension.class)
 class UserEntityTest {
 
     @Test
-    void testBuilderAndGetters() {
-        Date now = new Date();
-        UserEntity user = UserEntity.builder()
-                .id(1L)
-                .email("test@example.com")
-                .name("Test User")
-                .createdAt(now)
-                .updatedAt(now)
-                .build();
+    void shouldExposeConstructorValues() {
+        UserEntity user = new UserEntity("Test User", "test@example.com");
 
-        assertNotNull(user);
-        assertEquals(1L, user.getId());
         assertEquals("test@example.com", user.getEmail());
         assertEquals("Test User", user.getName());
-        assertEquals(now, user.getCreatedAt());
-        assertEquals(now, user.getUpdatedAt());
     }
 
     @Test
-    void testSetters() {
-        UserEntity user = new UserEntity();
+    void shouldUpdateMutableFields() {
+        UserEntity user = new UserEntity("Initial User", "initial@example.com");
+
         user.setId(2L);
         user.setEmail("another@example.com");
         user.setName("Another Test");
@@ -43,21 +29,12 @@ class UserEntityTest {
     }
 
     @Test
-    void testToString() {
-        Date now = new Date();
-        UserEntity user = UserEntity.builder()
-                .id(3L)
-                .email("user@example.com")
-                .name("User Name")
-                .createdAt(now)
-                .updatedAt(now)
-                .build();
+    void shouldRenderUsefulDiagnosticString() {
+        UserEntity user = new UserEntity("User Name", "user@example.com");
 
         String userString = user.toString();
 
-        assertNotNull(userString, "The toString method should not return null.");
-        assertTrue(userString.contains("User Name"), "The toString output should contain the user's name.");
-        assertTrue(userString.contains("user@example.com"), "The toString output should contain the user's email.");
+        assertTrue(userString.contains("User Name"));
+        assertTrue(userString.contains("user@example.com"));
     }
-
 }

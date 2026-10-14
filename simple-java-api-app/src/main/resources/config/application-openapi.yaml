@@ -1,5 +1,7 @@
 springdoc:
   api-docs:
     path: /api/yaml
+    enabled: ${OPENAPI_ENABLED:true}
   swagger-ui:
     path: /api/ui
+    enabled: ${OPENAPI_ENABLED:true}

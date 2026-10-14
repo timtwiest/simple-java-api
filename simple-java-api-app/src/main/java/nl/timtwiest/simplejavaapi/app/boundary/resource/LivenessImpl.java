@@ -1,6 +1,5 @@
 package nl.timtwiest.simplejavaapi.app.boundary.resource;
 
-import lombok.AllArgsConstructor;
 import nl.timtwiest.simplejavaapi.api.LivenessApiController;
 import nl.timtwiest.simplejavaapi.api.models.LivenessResponse;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  * This class provides endpoints for checking the health and liveness of the application.
  */
 @RestController
-@AllArgsConstructor
 public class LivenessImpl implements LivenessApiController {
 
     /**
@@ -23,10 +21,7 @@ public class LivenessImpl implements LivenessApiController {
      */
     @Override
     public ResponseEntity<LivenessResponse> liveness() {
-        return ResponseEntity.ok(LivenessResponse.builder()
-                .status(HttpStatus.OK.toString())
-                .timestamp(System.currentTimeMillis())
-                .build());
+        return ResponseEntity.ok(new LivenessResponse(HttpStatus.OK.toString(), System.currentTimeMillis()));
     }
 }
 

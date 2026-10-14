@@ -50,6 +50,18 @@ Example response:
 
 A new database contains no users, so the `users` array is empty until data is inserted. Create, update, and delete endpoints are planned but are not currently part of the contract.
 
+Malformed query parameters return the shared error format. For example, `page=invalid` returns HTTP `400`:
+
+```json
+{
+  "code": 400,
+  "message": "Bad request",
+  "errors": [
+    "Invalid value for parameter 'page'"
+  ]
+}
+```
+
 ## Contract sources
 
 - [`liveness-contract.yaml`](../simple-java-api-api/src/main/resources/contract/liveness-contract.yaml)

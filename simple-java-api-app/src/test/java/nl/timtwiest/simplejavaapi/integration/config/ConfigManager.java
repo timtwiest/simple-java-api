@@ -1,32 +1,29 @@
 package nl.timtwiest.simplejavaapi.integration.config;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Slf4j
-public class ConfigManager {
-  private static final String ENV = System.getProperty("env", "default");
-  private static final Properties PROPERTIES = new Properties();
+public final class ConfigManager {
+    private static final String ENV = System.getProperty("env", "default");
+    private static final Properties PROPERTIES = new Properties();
 
-  static {
-    try (InputStream input = ConfigManager.class.getClassLoader().getResourceAsStream("properties/" + ENV + ".properties")) {
-      if (input != null) {
-        PROPERTIES.load(input);
-      } else {
-        log.error("Properties file not found for environment: {}", ENV);
-        throw new RuntimeException("Properties file not found for environment: " + ENV);
-      }
-    } catch (IOException ex) {
-      log.error("Error loading properties file for environment: {}", ENV, ex);
-      throw new RuntimeException(ex);
+    static {
+        String resource = "properties/" + ENV + ".properties";
+        try (InputStream input = ConfigManager.class.getClassLoader().getResourceAsStream(resource)) {
+            if (input == null) {
+                throw new IllegalStateException("Properties file not found for environment: " + ENV);
+            }
+            PROPERTIES.load(input);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Could not load properties for environment: " + ENV, exception);
+        }
     }
 
-  }
+    private ConfigManager() {
+    }
 
-  public static String get(String key) {
-    return PROPERTIES.getProperty(key);
-  }
+    public static String get(String key) {
+        return PROPERTIES.getProperty(key);
+    }
 }

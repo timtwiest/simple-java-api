@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/timtwiest/simple-java-api/actions/workflows/build.yml/badge.svg)](https://github.com/timtwiest/simple-java-api/actions/workflows/build.yml)
 [![Java 25](https://img.shields.io/badge/Java-25-ED8B00?logo=openjdk&logoColor=white)](https://adoptium.net/temurin/releases/?version=25)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.14-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and OpenAPI. The project demonstrates generated API interfaces, a layered application module, pagination, containerized local development, and both unit and behavior-driven tests.
@@ -13,7 +13,7 @@ A compact, contract-first REST API built with Java, Spring Boot, PostgreSQL, and
 - **Clear module boundaries:** API contracts and generated code are separate from application code.
 - **Ready for local development:** Run PostgreSQL by itself or start the complete stack with Docker Compose.
 - **Built-in API explorer:** Swagger UI is available while the application is running.
-- **Tested at multiple levels:** JUnit 5, Mockito, Cucumber, REST Assured, and JaCoCo are configured.
+- **Tested at multiple levels:** JUnit 6, Mockito, Cucumber, REST Assured, and JaCoCo are configured.
 - **Automated builds:** GitHub Actions verifies every branch and pull request.
 
 ## Quick start
@@ -40,21 +40,21 @@ curl http://localhost:9080/liveness
 curl "http://localhost:9080/api/v1/users?page=1&limit=10"
 ```
 
-Stop the stack with `docker compose down`. Add `--volumes` if you also want to remove the database volume.
+Stop the stack with `docker compose down`. Database data remains in `./.volumes/postgres/data`; remove that directory separately only when you intentionally want to reset local data.
 
 ## Run from source
 
-You need Java 25, Maven 3.9+, and Docker with Compose.
+You need Java 25 and Docker with Compose. The Maven Wrapper downloads the pinned Maven 3.10.0 distribution automatically, so a system Maven installation is optional. SDKMAN users can install and select the repository JDK with `sdk env install`.
 
 ```bash
 # Start only PostgreSQL
 docker compose up -d postgres-db
 
 # Build and test all modules
-mvn clean verify
+./mvnw clean verify
 
 # Run the application
-mvn spring-boot:run -pl simple-java-api-app
+./mvnw spring-boot:run -pl simple-java-api-app
 ```
 
 Development defaults are intentionally local-friendly (`postgres` / `postgres`). Override them through environment variables outside local development; see [development documentation](docs/development.md#configuration).
@@ -66,7 +66,7 @@ Development defaults are intentionally local-friendly (`postgres` / `postgres`).
 | `GET` | `/liveness` | Report whether the service is running. |
 | `GET` | `/api/v1/users?page=1&limit=10` | Return a paginated list of users. |
 
-The source contracts live in [`simple-java-api-api/src/main/resources/contract`](simple-java-api-api/src/main/resources/contract). Maven generates the Java interfaces and models during the `generate-sources` phase; generated files are never edited by hand.
+The source contracts live in [`simple-java-api-api/src/main/resources/contract`](simple-java-api-api/src/main/resources/contract). Maven generates the Java interfaces and models during the `generate-sources` phase with Spring Boot 4 settings; generated files are never edited by hand.
 
 See [API documentation](docs/api.md) for response examples and contract details. Ready-to-run requests for JetBrains HTTP Client are available in [`http/`](http/).
 
@@ -97,7 +97,6 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 
 - Add create, update, and delete operations for users.
 - Add schema migrations with Flyway.
-- Add validation and consistent problem-detail responses.
 - Add authentication and authorization.
 - Publish a versioned container image.
 

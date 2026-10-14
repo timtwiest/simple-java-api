@@ -1,84 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.timtwiest</groupId>
         <artifactId>simple-java-api</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>simple-java-api-api</artifactId>
 
     <properties>
-        <contract.dir>${basedir}/src/main/resources/contract</contract.dir>
-
-        <!--  General Version Management  -->
-        <version.openapi-generator>7.22.0</version.openapi-generator>
-        <swagger.annotations.version>2.2.41</swagger.annotations.version>
-        <jakarta.validation.version>3.0.2</jakarta.validation.version>
-        <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
-        <jackson.databind.nullable.version>0.2.6</jackson.databind.nullable.version>
-        <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
+        <contract.dir>${project.basedir}/src/main/resources/contract</contract.dir>
+        <openapi-generator.version>7.26.0</openapi-generator.version>
+        <swagger.version>2.2.55</swagger.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger.annotations.version}</version>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta.validation.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta.annotation.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson.databind.nullable.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>${swagger.annotations.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>${jakarta.jakartaee-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
         </dependency>
     </dependencies>
 
@@ -87,13 +57,11 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${version.openapi-generator}</version>
+                <version>${openapi-generator.version}</version>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
                         <id>build-liveness-contract</id>
+                        <goals><goal>generate</goal></goals>
                         <configuration>
                             <inputSpec>${contract.dir}/liveness-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
@@ -105,17 +73,19 @@
                                 <useTags>true</useTags>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
-                                <useJakartaEe>true</useJakartaEe>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <additionalModelTypeAnnotations>@lombok.experimental.SuperBuilder</additionalModelTypeAnnotations>
+                                <useSpringBoot4>true</useSpringBoot4>
+                                <useJackson3>true</useJackson3>
+                                <useJspecify>true</useJspecify>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <openApiNullable>false</openApiNullable>
+                                <generateJsonIncludeAnnotations>false</generateJsonIncludeAnnotations>
+                                <generateJsonSetterNullsAnnotations>false</generateJsonSetterNullsAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>
                     <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
                         <id>build-user-contract</id>
+                        <goals><goal>generate</goal></goals>
                         <configuration>
                             <inputSpec>${contract.dir}/v1/user-contract.yaml</inputSpec>
                             <generatorName>spring</generatorName>
@@ -127,9 +97,13 @@
                                 <useTags>true</useTags>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
-                                <useJakartaEe>true</useJakartaEe>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <additionalModelTypeAnnotations>@lombok.experimental.SuperBuilder</additionalModelTypeAnnotations>
+                                <useSpringBoot4>true</useSpringBoot4>
+                                <useJackson3>true</useJackson3>
+                                <useJspecify>true</useJspecify>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <openApiNullable>false</openApiNullable>
+                                <generateJsonIncludeAnnotations>false</generateJsonIncludeAnnotations>
+                                <generateJsonSetterNullsAnnotations>false</generateJsonSetterNullsAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>

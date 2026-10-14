@@ -32,8 +32,8 @@ body:
     id: environment
     attributes:
       label: 🖥️ Environment
-      description: Include the Java version, operating system, and whether you used Maven or Docker.
-      placeholder: Java 25, macOS 15, Docker Compose v2
+      description: Include the Java version, operating system, and whether you used the Maven Wrapper or Docker.
+      placeholder: Java 25, macOS 26, Maven Wrapper 3.10.0
     validations:
       required: true
 

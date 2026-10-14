@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,15 +30,8 @@ class UserServiceTest {
 
     @Test
     void should_get_all_users() {
-        UserEntity userEntity1 = UserEntity.builder()
-                .name("John Doe")
-                .email("johndoe@example.com")
-                .build();
-
-        UserEntity userEntity2 = UserEntity.builder()
-                .name("Jane Doe")
-                .email("janedoe@example.com")
-                .build();
+        UserEntity userEntity1 = new UserEntity("John Doe", "johndoe@example.com");
+        UserEntity userEntity2 = new UserEntity("Jane Doe", "janedoe@example.com");
 
         List<UserEntity> mockUserEntities = List.of(userEntity1, userEntity2);
 
@@ -56,5 +50,27 @@ class UserServiceTest {
         assertEquals("johndoe@example.com", response.getUsers().get(0).getEmail());
         assertEquals("Jane Doe", response.getUsers().get(1).getName());
         assertEquals("janedoe@example.com", response.getUsers().get(1).getEmail());
+    }
+
+    @Test
+    void shouldUseDocumentedDefaultsWhenPaginationIsMissing() {
+        Page<UserEntity> emptyPage = Page.empty(PageRequest.of(0, 10));
+        when(userRepository.findAll(any(PageRequest.class))).thenReturn(emptyPage);
+
+        PaginatedUserResponse response = underTest.users(null, null);
+
+        verify(userRepository).findAll(PageRequest.of(0, 10));
+        assertEquals(1, response.getCurrentPage());
+        assertEquals(0, response.getTotalItems());
+    }
+
+    @Test
+    void shouldPreserveClampingForNonPositivePagination() {
+        Page<UserEntity> emptyPage = Page.empty(PageRequest.of(0, 1));
+        when(userRepository.findAll(any(PageRequest.class))).thenReturn(emptyPage);
+
+        underTest.users(0, 0);
+
+        verify(userRepository).findAll(PageRequest.of(0, 1));
     }
 }

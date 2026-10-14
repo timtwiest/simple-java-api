@@ -10,7 +10,7 @@
 
 <!-- List the commands or manual checks used to verify this change. -->
 
-- [ ] `mvn clean verify`
+- [ ] `./mvnw clean verify`
 - [ ] Documentation updated when behavior changed
 - [ ] OpenAPI contracts updated when the API changed
 

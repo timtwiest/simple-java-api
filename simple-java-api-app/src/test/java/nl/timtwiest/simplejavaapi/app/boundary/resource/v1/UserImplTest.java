@@ -10,6 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -26,7 +28,7 @@ class UserImplTest {
 
     @Test
     void should_retrieve_users() {
-        PaginatedUserResponse expectedResponse = PaginatedUserResponse.builder().build();
+        PaginatedUserResponse expectedResponse = new PaginatedUserResponse(1, 0, 0L, List.of());
         when(userService.users(anyInt(), anyInt())).thenReturn(expectedResponse);
 
         ResponseEntity<PaginatedUserResponse> responseEntity = underTest.getUsers(1, 10);
@@ -36,5 +38,6 @@ class UserImplTest {
 
         PaginatedUserResponse actualResponse = responseEntity.getBody();
         assertNotNull(actualResponse, "The body of the response entity should not be null.");
+        assertEquals(expectedResponse, actualResponse);
     }
 }
