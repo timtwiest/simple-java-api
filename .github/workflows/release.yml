@@ -6,6 +6,7 @@ on:
       - "v*.*.*"
 
 permissions:
+  actions: read
   contents: read
   packages: write
 
@@ -66,6 +67,24 @@ jobs:
           distribution: temurin
           cache: maven
 
+      - name: Require successful master build
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          successful_runs=$(gh api --method GET \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/build.yml/runs" \
+            -f branch=master \
+            -f event=push \
+            -f status=success \
+            -f head_sha="$GITHUB_SHA" \
+            -f per_page=1 \
+            --jq '.total_count')
+          if [[ "$successful_runs" -lt 1 ]]; then
+            echo "No successful master build exists for $GITHUB_SHA." >&2
+            exit 1
+          fi
+
       - name: Verify release source
         id: maven-verify
         continue-on-error: true
@@ -73,6 +92,7 @@ jobs:
         run: |
           set -o pipefail
           ./mvnw --batch-mode --no-transfer-progress clean verify \
+            -DskipITs -Djacoco.skip=true \
             2>&1 | tee maven-release.log
 
       - name: Report Maven failure
