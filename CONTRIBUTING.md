@@ -10,7 +10,7 @@ Thanks for taking the time to improve Simple Java API.
 4. Run `./mvnw clean verify` before opening a pull request.
 5. Update the OpenAPI contract and documentation when behavior changes.
 
-Use clear commit messages and include tests for new behavior or bug fixes. Keep generated sources out of commits; Maven recreates them from the files in `simple-java-api-api/src/main/resources/contract`.
+Use [Conventional Commits](https://www.conventionalcommits.org/): `fix:` creates a patch, `feat:` a minor release, and `!` or `BREAKING CHANGE` a major release. Include tests for changed behavior. Do not commit generated sources; Maven recreates them from `simple-java-api-api/src/main/resources/contract`.
 
 ## Pull requests
 

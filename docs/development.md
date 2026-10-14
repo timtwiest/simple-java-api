@@ -83,8 +83,8 @@ Before baselining, confirm that `email`, `name`, `updated_at`, and `created_at` 
 - Repository and migration tests run against PostgreSQL 16 through Testcontainers.
 - Cucumber features under `simple-java-api-app/src/test/resources/features` exercise the running application with REST Assured.
 - The production profile has an integration test that verifies its safe configuration defaults.
-- GitHub Actions runs `./mvnw --batch-mode --no-transfer-progress clean verify`, scans the generated SBOM with OSV-Scanner, builds and scans the container image with Trivy, and uploads both JaCoCo and SBOM artifacts. Docker is required locally and is available on GitHub-hosted Linux runners.
-- Semantic version tags run a separate workflow that requires a successful full `master` build for the exact commit, repeats compilation, unit tests, static analysis, and image scanning, then publishes versioned tags to GHCR. See the README for the release commands; never move or reuse an existing version tag.
+- GitHub Actions runs the full Maven lifecycle, scans the SBOM and image, and uploads JaCoCo, test, and SBOM artifacts. Docker is required locally and available on GitHub-hosted runners.
+- Green `master` builds publish `edge` and `sha-<commit>` images. Release Please derives versions and changelogs from conventional commits; merging its release pull request creates an immutable Git tag and starts the versioned GHCR release. Never move or reuse a release tag.
 
 ## Troubleshooting
 

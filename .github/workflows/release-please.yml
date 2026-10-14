@@ -1,0 +1,46 @@
+name: Prepare release
+
+on:
+  workflow_run:
+    workflows: [ "Build" ]
+    types: [ completed ]
+
+permissions: {}
+
+concurrency:
+  group: release-please-master
+  cancel-in-progress: true
+
+jobs:
+  release-please:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'master'
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Prepare or create release
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          target-branch: master
+
+      - name: Verify release pull request
+        if: steps.release.outputs.prs_created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_PR: ${{ steps.release.outputs.pr }}
+        run: |
+          branch=$(jq --raw-output '.headBranchName' <<< "$RELEASE_PR")
+          gh workflow run build.yml --ref "$branch"
+
+      - name: Publish created release
+        if: steps.release.outputs.release_created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag_name }}
+        run: gh workflow run release.yml --ref master --field tag="$RELEASE_TAG"

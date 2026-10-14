@@ -49,4 +49,4 @@ Applied Flyway migration files are immutable. Roll forward with a new migration;
 
 ## Rollback
 
-Application releases should use immutable image digests. If application code fails but the migration remains backward-compatible, redeploy the previous digest. If a non-backward-compatible migration fails, stop writes and follow the database provider's reviewed restore or point-in-time recovery procedure. Practice both paths in staging before production rollout.
+Production deployments should use a version tag or immutable digest, never the moving `edge` tag. If application code fails but the migration remains backward-compatible, redeploy the previous digest. If a non-backward-compatible migration fails, stop writes and follow the database provider's reviewed restore or point-in-time recovery procedure. Practice both paths in staging before production rollout.

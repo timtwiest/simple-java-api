@@ -116,15 +116,13 @@ Read [architecture documentation](docs/architecture.md) for the request flow and
 
 ## Container releases
 
-Tags matching `vMAJOR.MINOR.PATCH` publish a tested and vulnerability-scanned image to `ghcr.io/timtwiest/simple-java-api`. Each release receives full, major/minor, major, and `latest` tags plus build provenance and an SBOM.
+Pull requests build, test, and scan without publishing. Every successful `master` build publishes multi-architecture `edge` and immutable `sha-<commit>` images:
 
 ```bash
-git tag -a v1.1.0 -m "Release v1.1.0"
-git push origin v1.1.0
-docker pull ghcr.io/timtwiest/simple-java-api:1.1.0
+docker pull ghcr.io/timtwiest/simple-java-api:edge
 ```
 
-Only tag commits already present on `master`. Creating the tag starts the release workflow, publishes the container package, and creates GitHub release notes with an `Episode <version>` title.
+Release Please keeps one release pull request current from conventional commits. Merging it updates the Maven versions and changelog, creates the `vMAJOR.MINOR.PATCH` Git tag, and publishes matching full, major/minor, major, and `latest` images with provenance and an SBOM. Use `fix:` for patches, `feat:` for minor releases, and `feat!:` or a `BREAKING CHANGE` footer for majors.
 
 ## License
 
