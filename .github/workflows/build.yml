@@ -34,7 +34,21 @@ jobs:
           cache: maven
 
       - name: Build and test
-        run: ./mvnw --batch-mode --no-transfer-progress clean verify
+        id: maven-verify
+        continue-on-error: true
+        run: >-
+          ./mvnw --batch-mode --no-transfer-progress clean verify
+          2>&1 | tee maven-build.log
+
+      - name: Report Maven failure
+        if: steps.maven-verify.outcome == 'failure'
+        run: |
+          summary=$(grep -E '^\[ERROR\]|Failures: [1-9]|Errors: [1-9]|<<< (FAILURE|ERROR)' maven-build.log \
+            | tail -n 12 \
+            | tr '\n' ' ' \
+            | cut -c 1-2000)
+          echo "::error title=Maven verification failed::${summary:-See the test-diagnostics artifact for details.}"
+          exit 1
 
       - name: Scan dependency SBOM
         run: >-
