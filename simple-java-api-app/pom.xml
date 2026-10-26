@@ -13,7 +13,7 @@
         <cucumber.version>8.0.4</cucumber.version>
         <jacoco.version>0.8.15</jacoco.version>
         <postgresql.version>42.7.14</postgresql.version>
-        <rest-assured.version>6.1.0</rest-assured.version>
+        <rest-assured.version>6.2.0</rest-assured.version>
         <spotbugs-maven-plugin.version>4.10.5.0</spotbugs-maven-plugin.version>
         <springdoc-openapi.version>3.1.1</springdoc-openapi.version>
     </properties>
