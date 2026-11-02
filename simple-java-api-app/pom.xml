@@ -11,11 +11,11 @@
 
     <properties>
         <cucumber.version>8.0.4</cucumber.version>
-        <jacoco.version>0.8.15</jacoco.version>
+        <jacoco.version>0.8.16</jacoco.version>
         <postgresql.version>42.7.14</postgresql.version>
-        <rest-assured.version>6.1.0</rest-assured.version>
+        <rest-assured.version>6.3.0</rest-assured.version>
         <spotbugs-maven-plugin.version>4.10.5.0</spotbugs-maven-plugin.version>
-        <springdoc-openapi.version>3.1.1</springdoc-openapi.version>
+        <springdoc-openapi.version>3.2.0</springdoc-openapi.version>
     </properties>
 
     <dependencyManagement>
