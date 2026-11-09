@@ -11,7 +11,7 @@
 
     <properties>
         <contract.dir>${project.basedir}/src/main/resources/contract</contract.dir>
-        <openapi-generator.version>7.26.0</openapi-generator.version>
+        <openapi-generator.version>7.27.0</openapi-generator.version>
         <swagger.version>2.2.55</swagger.version>
     </properties>
 
